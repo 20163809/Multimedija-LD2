@@ -12,6 +12,7 @@
       <a-assets>
         <img id="groundTexture" src="https://cdn.aframe.io/a-painter/images/floor.jpg">
         <img id="skyTexture" src="https://cdn.aframe.io/a-painter/images/sky.jpg">
+		<a-asset-item id="rubicsCube" response-type="arraybuffer" src="https://cdn.glitch.com/173e7bb8-8b3d-468f-9b0c-d9e0a9d068f3%2Frubic.glb?1551486575373"></a-asset-item>
       </a-assets>
 
       <a-plane src="#groundTexture" rotation="-90 0 0" height="100" width="100"></a-plane>
@@ -35,6 +36,12 @@
         depthWrite="false">
       </a-pointcloud>
 
+		<!-- RUBIC CUBE -->			
+		<a-entity gltf-model="#rubicsCube" rotation="20-45 0" position="1 1.1 -2" scale="0.01 0.01 0.01" 
+			animation=" begin: 'click'; loop: true; property: rotation; to: 20 360 0; dur: 4000 "
+			animation-mixer=" clip:Take 001; loop: true; timeScale: 1; crossFadeDuration: 1">
+        </a-entity>>
+		
     </a-scene>
   </body>
 </html>
