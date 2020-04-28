@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Lab2 - VR application</title>
+    <meta name="description" content="Basic example for Point Cloud component."></meta>
+    <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+    <script src="js/aframe-pointcloud-component.js"></script>
+	<script src="https://rawgit.com/ngokevin/kframe/csstricks/scenes/aincraft/components/random-color.js"></script>
+	<script src="https://rawgit.com/ngokevin/kframe/csstricks/scenes/aincraft/components/snap.js"></script>
+	<script src="https://rawgit.com/ngokevin/kframe/csstricks/scenes/aincraft/components/intersection-spawn.js"></script>
+	<script src="js/aframe-gui.js"></script>
+  </head>
+  <body>
+    <a-scene>
+      <a-assets>
+	    <video id="film" src="minority.mp4"></video>
+        <img id="groundTexture" src="egyptian-bricks.jpg">
+        <img id="skyTexture" src="sky.jpg">
+		<a-asset-item id="rubicsCube" response-type="arraybuffer" src="https://cdn.glitch.com/173e7bb8-8b3d-468f-9b0c-d9e0a9d068f3%2Frubic.glb?1551486575373"></a-asset-item>
+      </a-assets>
+
+      <a-plane src="#groundTexture" rotation="-90 0 0" height="100" width="100"></a-plane>
+      <a-light type="ambient" color="#445451"></a-light>
+      <a-light type="point" intensity="2" position="2 4 4"></a-light>
+      <a-sky height="2048" radius="30" src="#skyTexture" theta-length="90" width="2048"></a-sky>
+      <a-entity laser-controls line="color: red; opacity: 0.75"></a-entity>
+      <a-pointcloud 
+        scale="0.1 0.1 0.1" 
+        position="0 0.08 -2.5" 
+        rotation="-90 45 0" 
+        src="url(sculpt.ply)" 
+        size="0.01">
+      </a-pointcloud>
+
+		<!-- RUBIC CUBE -->			
+		<a-entity gltf-model="#rubicsCube"
+		  rotation="20-45 0"
+		  position="5 1.1 -2"
+		  scale="0.03 0.03 0.03" 
+		  animation=" begin: 'click'; loop: true; property: rotation; to: 20 360 0; dur: 4000 "
+		  animation-mixer=" clip:Take 001; loop: true; timeScale: 1; crossFadeDuration: 1">
+        </a-entity>>
+		
+		<!-- TEXT -->
+		<a-text font="kelsonsans"
+		  value="Antras multimediju laboratorinis darbas"
+		  width="8"
+		  color="red"
+		  position="-0.5 4 -1.5"
+		  rotation="60 0 0">
+		</a-text>
+		<a-text font="kelsonsans"
+		  value="Atliko: Viktoras Jakovlevas"
+		  width="8"
+		  color="red"
+		  position="-0.5 3.5 -1.5"
+		  rotation="60 0 0">
+		</a-text>
+		
+		<!-- Spawn boxes -->
+		<a-mixin id="voxel"
+         geometry="primitive: box; height: 0.5; width: 0.5; depth: 0.5"
+         material="shader: standard"
+         random-color
+		 animation=" loop: true; property: rotation; to: 360 360 360; dur: 4000; delay: 2000 "
+		 animation__2=" loop: true; property: position; to: 1 1.5 2; dur: 4000; delay: 2000 "
+         snap="offset: 0.25 0.25 0.25; snap: 0.5 0.5 0.5"
+        ></a-mixin>
+	    <a-entity id="box"
+		  position="1 0.4 -2"
+		  rotation="0 0 0"
+		  cursor-listener
+		  geometry="primitive: box"
+		  material="color: blue">
+		</a-entity>
+		<a-entity id="cube"
+	      hand-controls="right"
+		  controller-cursor
+		  intersection-spawn="event: click;
+		  mixin: voxel">
+		</a-entity>
+		<a-camera position="1 1.5 2">
+      <a-cursor intersection-spawn="event: click; mixin: voxel"></a-cursor>
+    </a-camera>
+	
+		<!-- Movie player -->
+		<a-entity
+			obj-model="obj: #theater-obj;"
+			material="color:#999"
+			position="10 -0.25 0"
+			scale="0.025 0.025 0.025"
+		></a-entity>
+
+		<a-video id="video-screen" src="#film"
+			width="8"
+			height="2.75"
+			position="10 1.6 -4.8"
+		></a-video>
+		<a-gui-flex-container
+			flex-direction="row" justify-content="center" align-items="normal" component-padding="0.1"
+			opacity="0.7" width="5" height="1"
+			position="11 0.45 -4" rotation="0 0 0" scale="0.5 0.5 0.5"
+		>
+			<a-gui-icon-button
+				width="0.75" height="0.75"
+				onclick="togglePlayback"
+				icon="ios-play"
+			>
+			</a-gui-icon-button>
+			<a-gui-icon-button
+				width="0.75" height="0.75"
+				onclick="stop"
+				icon="stop"
+			>
+			</a-gui-icon-button>
+			<a-gui-icon-button
+				width="0.75" height="0.75"
+				onclick="toggleSound"
+				icon="music-note"
+			>
+			</a-gui-icon-button>
+			<a-gui-toggle
+				width="2.5" height="0.75"
+				onclick="toggleCaps"
+				value="Captions"
+				font-family="Arial"
+			>
+			</a-gui-toggle>
+		</a-gui-flex-container>
+		<a-sky color="#222"></a-sky>
+
+		<!-- Camera + cursor. -->
+		<a-entity id="cameraRig" position="0 1.6 0">
+			<a-camera look-controls wasd-controls position="0 0 0">
+				<a-gui-cursor id="cursor"
+						  raycaster="objects: [gui-interactable]"
+						  fuse="true" fuse-timeout="2000"
+						  design="ring"
+				>
+				</a-gui-cursor> <!-- /cursor -->
+			</a-camera> <!-- /camera -->
+		</a-entity>
+    </a-scene>
+	
+		<script type="text/javascript">
+	    var video_el = document.getElementById("film");
+
+		function togglePlayback () {
+			console.log('play/pause movie');
+			if(!video_el.paused){
+            	video_el.pause();
+        	}
+        	else {
+            	video_el.play();
+        	}
+
+			// var filmEl = document.getElementById('video')
+			// var material = Object.assign({}, filmEl.getAttribute('material'))
+			// material.pause = !material.pause
+			// filmEl.setAttribute('material', material)
+		}
+		function stop () {
+			console.log('stop movie');
+			video_el.pause();
+		}
+		function toggleSound () {
+			console.log('toggleSound on/off');
+			if(!video_el.muted){
+            	video_el.muted == true;
+        	}
+        	else {
+            	video_el.muted == false;
+        	}
+
+		}
+		function toggleCaps () {
+			console.log('toggleCaps visible/hidden');
+		}
+
+    </script>
+  </body>
+</html>
