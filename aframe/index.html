@@ -10,34 +10,11 @@
 	<script src="https://rawgit.com/ngokevin/kframe/csstricks/scenes/aincraft/components/snap.js"></script>
 	<script src="https://rawgit.com/ngokevin/kframe/csstricks/scenes/aincraft/components/intersection-spawn.js"></script>
 	<script src="js/aframe-gui.js"></script>
-		<style type="text/css">
-		@font-face{
-			font-family:"Ionicons";
-
-			src:url("assets/fonts/ionicons.eot?v=2.0.1");
-			src:url("assets/fonts/ionicons.eot?v=2.0.1#iefix") format("embedded-opentype"),url("assets/fonts/ionicons.ttf?v=2.0.1") format("truetype"),url("assets/fonts/ionicons.woff?v=2.0.1") format("woff"),url("assets/fonts/ionicons.svg?v=2.0.1#Ionicons") format("svg");
-
-			font-weight:normal;
-			font-style:normal
-		}
-		body{font-family:Ionicons;}
-		.visuallyhidden {
-			position: absolute;
-			display: block;
-			border: 0;
-			clip: rect(0 0 0 0);
-			height: 1px;
-			width: 1px;
-			margin: -1px;
-			padding: 0;
-			overflow: hidden;
-		}
-	</style>
   </head>
   <body>
     <a-scene>
       <a-assets>
-	    <video id="film" src="assets/minority.mp4"></video>
+	    <video id="film" src="minority.mp4"></video>
         <img id="groundTexture" src="egyptian-bricks.jpg">
         <img id="skyTexture" src="sky.jpg">
 		<a-asset-item id="rubicsCube" response-type="arraybuffer" src="https://cdn.glitch.com/173e7bb8-8b3d-468f-9b0c-d9e0a9d068f3%2Frubic.glb?1551486575373"></a-asset-item>
@@ -120,9 +97,6 @@
 			height="2.75"
 			position="10 1.6 -4.8"
 		></a-video>
-
-
-
 		<a-gui-flex-container
 			flex-direction="row" justify-content="center" align-items="normal" component-padding="0.1"
 			opacity="0.7" width="5" height="1"
@@ -154,8 +128,6 @@
 			>
 			</a-gui-toggle>
 		</a-gui-flex-container>
-
-
 		<a-sky color="#222"></a-sky>
 
 		<!-- Camera + cursor. -->
