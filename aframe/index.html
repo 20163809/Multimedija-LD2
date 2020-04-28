@@ -6,6 +6,9 @@
     <meta name="description" content="Basic example for Point Cloud component."></meta>
     <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
     <script src="js/aframe-pointcloud-component.js"></script>
+	<script src="https://rawgit.com/ngokevin/kframe/csstricks/scenes/aincraft/components/random-color.js"></script>
+	<script src="https://rawgit.com/ngokevin/kframe/csstricks/scenes/aincraft/components/snap.js"></script>
+	<script src="https://rawgit.com/ngokevin/kframe/csstricks/scenes/aincraft/components/intersection-spawn.js"></script>
   </head>
   <body>
     <a-scene>
@@ -30,13 +33,55 @@
 
 		<!-- RUBIC CUBE -->			
 		<a-entity gltf-model="#rubicsCube"
-		rotation="20-45 0"
-		position="5 1.1 -2"
-		scale="0.03 0.03 0.03" 
-			animation=" begin: 'click'; loop: true; property: rotation; to: 20 360 0; dur: 4000 "
-			animation-mixer=" clip:Take 001; loop: true; timeScale: 1; crossFadeDuration: 1">
+		  rotation="20-45 0"
+		  position="5 1.1 -2"
+		  scale="0.03 0.03 0.03" 
+		  animation=" begin: 'click'; loop: true; property: rotation; to: 20 360 0; dur: 4000 "
+		  animation-mixer=" clip:Take 001; loop: true; timeScale: 1; crossFadeDuration: 1">
         </a-entity>>
 		
+		<!-- TEXT -->
+		<a-text font="kelsonsans"
+		  value="Antras multimediju laboratorinis darbas"
+		  width="8"
+		  color="red"
+		  position="-0.5 4 -1.5"
+		  rotation="60 0 0">
+		</a-text>
+		<a-text font="kelsonsans"
+		  value="Atliko: Viktoras Jakovlevas"
+		  width="8"
+		  color="red"
+		  position="-0.5 3.5 -1.5"
+		  rotation="60 0 0">
+		</a-text>
+		
+		<!-- Spawn boxes -->
+		<a-mixin id="voxel"
+         geometry="primitive: box; height: 0.5; width: 0.5; depth: 0.5"
+         material="shader: standard"
+         random-color
+		 animation=" loop: true; property: rotation; to: 360 360 360; dur: 4000; delay: 2000 "
+		 animation__2=" loop: true; property: position; to: 1 1.5 2; dur: 4000; delay: 2000 "
+         snap="offset: 0.25 0.25 0.25; snap: 0.5 0.5 0.5"
+        ></a-mixin>
+	    <a-entity id="box"
+		  position="1 0.4 -2"
+		  rotation="0 0 0"
+		  cursor-listener
+		  geometry="primitive: box"
+		  material="color: blue">
+		</a-entity>
+        
+		<a-entity id="cube"
+	      hand-controls="right"
+		  controller-cursor
+		  intersection-spawn="event: click;
+		  mixin: voxel">
+		</a-entity>
+		<a-camera position="1 1.5 2">
+      <a-cursor intersection-spawn="event: click; mixin: voxel"></a-cursor>
+    </a-camera>
     </a-scene>
   </body>
 </html>
